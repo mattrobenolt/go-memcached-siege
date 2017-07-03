@@ -84,11 +84,9 @@ func main() {
 	}
 	value = append(bytes.Repeat([]byte("x"), *maxsize), []byte("\r\n")...)
 	keys := make([]McCmd, *iterations)
-	// log.Print(value)
 	log.Printf("Precalculating all %d keys...", *iterations)
 	json.Unmarshal([]byte(*prefixweights), &weights)
 	for k, v := range weights {
-		// log.Printf("prefix: %v weight: %v", k,v)
 		pfx := make([]string, int(v.(float64)))
 		for i = range pfx {
 			pfx[i] = k
@@ -96,10 +94,8 @@ func main() {
 		prefixes = append(prefixes, pfx...)
 	}
 	prefixcount := len(prefixes)
-	// log.Printf("prefixes: %v %v", prefixcount, prefixes)
 	rand.Seed(time.Now().Unix())
 	for i = 0; i < *iterations; i++ {
-		// log.Printf("%s", i)
 		// shuffle keys while they are still being generated
 		j := rand.Intn(i + 1)
                 keys[i].command = keys[j].command
@@ -125,12 +121,7 @@ func main() {
 		} else {
 			keys[i].cmdstr = []byte(fmt.Sprintf(GET, keys[i].cmdstr))
 		}
-		// log.Printf("keys[%d]:", i)
-		// log.Printf("command: %d", keys[i].command)
-		// log.Printf("cmdstr: %s", keys[i].cmdstr)
-		// log.Printf("validx: %d", keys[i].validx)
 	}
-	// log.Printf("keys: %v", keys)
 
 	log.Printf("Rock and roll.")
 	bar.Start()
